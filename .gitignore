@@ -1,6 +1,6 @@
 *.retry
 *.swp
-#*.log
+*.log
 .vscode/
 .old
 .unscaled
