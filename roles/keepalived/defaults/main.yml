@@ -1,0 +1,13 @@
+---
+keepalived_interface: eth0
+
+keepalived_router_id: 51
+
+keepalived_vip: 10.0.2.234
+
+keepalived_auth_pass: kecap123
+
+keepalived_advert_int: 1
+
+keepalived_state: BACKUP
+keepalived_priority: 100

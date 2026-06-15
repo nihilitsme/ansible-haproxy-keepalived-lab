@@ -1,0 +1,5 @@
+ansible_user: fr
+ansible_port: 22888
+
+ansible_become: true
+ansible_become_method: sudo

@@ -1,0 +1,5 @@
+#vrrp_state: BACKUP
+#vrrp_priority: 100
+keepalived_state: BACKUP
+keepalived_priority: 100
+#lb_name: lb02

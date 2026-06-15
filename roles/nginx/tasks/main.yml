@@ -1,0 +1,31 @@
+---
+- name: Install nginx
+  apt:
+    name: nginx
+    state: present
+
+- name: Disable IPv6 listen
+  replace:
+    path: /etc/nginx/sites-enabled/default
+    regexp: '^\s*listen \[::\]:80.*$'
+    replace: '# listen [::]:80 default_server;'
+#    replace: '# Disabled by Ansible'
+
+- name: Deploy index page
+  template:
+    src: index.html.j2
+    dest: /var/www/html/index.html
+  notify: restart nginx
+
+- name: Deploy nginx config
+  template:
+    src: default.conf.j2
+    dest: /etc/nginx/sites-enabled/default
+  notify: restart nginx
+
+## Kalau bandelnya naudzubillah
+#- name: Remove IPv6 listen
+#  lineinfile:
+#    path: /etc/nginx/sites-available/default
+#    regexp: 'listen \[::\]:80'
+#    state: absent

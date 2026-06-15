@@ -1,0 +1,34 @@
+- name: Install keepalived
+  apt:
+    name: keepalived
+    state: present
+
+- name: Validate keepalived_state
+  assert:
+    that:
+      - keepalived_state in ['MASTER','BACKUP']
+
+- name: Validate priority
+  assert:
+    that:
+      - keepalived_priority | int > 0
+
+
+- name: Deploy keepalived config
+  template:
+    src: keepalived.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+    validate: 'keepalived -t -f %s'
+  notify: restart keepalived
+
+
+- name: Validate keepalived config
+  command: keepalived -t -f /etc/keepalived/keepalived.conf
+  changed_when: false
+
+- name: Ensure keepalived running
+  service:
+    name: keepalived
+    state: started
+    enabled: true
+

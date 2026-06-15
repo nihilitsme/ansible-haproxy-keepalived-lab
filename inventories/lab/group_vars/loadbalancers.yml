@@ -1,0 +1,14 @@
+haproxy_frontend_port: 80
+
+# Config Keepalived
+keepalived_vip: "10.0.2.234"
+keepalived_interface: "eth0"
+keepalived_router_id: 51
+keepalived_auth_pass: "kecap123"
+
+keepalived_interval: 1
+keepalived_fall: 1
+keepalived_rise: 1
+keepalived_weight: -150
+keepalived_advert_int: 1
+keepalived_garp_master_delay: 0

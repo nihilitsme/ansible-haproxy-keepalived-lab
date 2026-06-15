@@ -1,0 +1,6 @@
+- name: Deploy KeepAlived
+  hosts: loadbalancers
+  become: true
+
+  roles:
+    - keepalived

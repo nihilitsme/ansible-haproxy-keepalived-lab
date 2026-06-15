@@ -1,0 +1,5 @@
+#vrrp_state: MASTER
+#vrrp_priority: 200
+keepalived_state: MASTER
+keepalived_priority: 200
+#lb_name: lb01

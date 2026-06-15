@@ -1,0 +1,36 @@
+global
+    daemon
+
+defaults
+    mode http
+
+    timeout connect 5s
+    timeout client 30s
+    timeout server 30s
+
+frontend http_front
+    bind *:{{ haproxy_frontend_port }}
+    http-response add-header X-LB {{ inventory_hostname }}
+    default_backend web_servers
+
+backend web_servers
+    balance roundrobin
+
+    option httpchk GET /
+    http-check expect status 200
+
+    option redispatch
+
+    retries 3
+
+    default-server inter 2s fastinter 1s downinter 1s fall 2 rise 2
+
+{% for host in groups['webservers'] %}
+    server {{ host }} {{ hostvars[host]['ansible_host'] }}:80 check
+{% endfor %}
+
+
+listen stats
+    bind *:8404
+    stats enable
+    stats uri /stats

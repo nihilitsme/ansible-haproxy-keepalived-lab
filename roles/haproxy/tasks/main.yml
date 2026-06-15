@@ -1,0 +1,63 @@
+---
+- name: Install haproxy
+  apt:
+    name: haproxy
+    state: present
+    update_cache: true
+
+- name: Ensure haproxy config directory exists
+  file:
+    path: /etc/haproxy
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Validate webservers exist
+  assert:
+    that:
+      - groups['webservers'] | length > 0
+    fail_msg: "No backend servers found in inventory!"
+    success_msg: "Backend servers found"
+
+- name: Deploy haproxy config
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    validate: 'haproxy -c -f %s'
+  notify: restart haproxy
+
+#- name: Validate haproxy config
+#  command: haproxy -c -f /etc/haproxy/haproxy.cfg
+#  changed_when: false
+
+- name: Ensure haproxy running
+  service:
+    name: haproxy
+    state: started
+    enabled: true
+
+#- name: Install HAProxy
+#  apt:
+#    name: haproxy
+#    state: present
+#    update_cache: true
+
+#- name: Deploy haproxy.cfg
+#  template:
+#    src: haproxy.cfg.j2
+#    dest: /etc/haproxy/haproxy.cfg
+#    owner: root
+#    group: root
+#    mode: "0644"
+#  notify: restart haproxy
+
+#- name: Validate HAProxy config
+#  command: haproxy -c -f /etc/haproxy/haproxy.cfg
+#  changed_when: false
+
+#- name: Ensure HAProxy is running
+#  service:
+#    name: haproxy
+#    state: started
+#    enabled: true

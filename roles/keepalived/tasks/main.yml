@@ -1,0 +1,34 @@
+---
+- name: Install keepalived
+  apt:
+    name: keepalived
+    state: present
+    update_cache: true
+
+- name: Deploy keepalived config
+  template:
+    src: keepalived.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify: restart keepalived
+
+- name: Deploy health check script
+  copy:
+    src: check_haproxy.sh
+    dest: /usr/local/bin/check_haproxy.sh
+    owner: root
+    group: root
+    mode: "0755"
+  notify: restart keepalived
+
+- name: Validate keepalived config
+  command: keepalived -t -f /etc/keepalived/keepalived.conf
+  changed_when: false
+
+- name: Ensure keepalived running
+  service:
+    name: keepalived
+    state: started
+    enabled: true
