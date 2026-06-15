@@ -8,4 +8,4 @@
 *.old
 *.unscaled
 *.tar.gz
-docs/lab-topology.md
+docs_personal/*
