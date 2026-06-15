@@ -4,3 +4,8 @@
 .vscode/
 .old
 .unscaled
+.tar.gz
+*.old
+*.unscaled
+*.tar.gz
+docs/lab-topology.md

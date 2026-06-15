@@ -48,6 +48,23 @@ Production-style homelab built using:
 ✔ Inventory Driven Configuration
 
 
+Deploy:
+
+ansible-playbook playbooks/site.yml -K
+
+
+Failover Test:
+
+systemctl stop haproxy
+
+Expected:
+
+VIP migrates to backup node
+
+Traffic continues
+
+Downtime ≈ 3-5 seconds
+
 Failover Test:
 1. Start traffic script
 2. Stop HAProxy on MASTER
@@ -67,12 +84,3 @@ Project Structure:
 inventories/
 playbooks/
 roles/
-
-Skills Demonstrated:
-Linux Administration
-Ansible
-Configuration Management
-High Availability
-Load Balancing
-VRRP
-Infrastructure as Code
