@@ -160,10 +160,6 @@ Available at:
 ```text
 docs/fail_lb_20260612_100533.log
 ```
-Available at:
-
-docs/fail_lb_20260612_100533.log
-
 ---
 
 # Observed Results
