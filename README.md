@@ -1,19 +1,26 @@
-# Homelab DevOps
+# High Availability Load Balancer Homelab
 
-Production-style homelab built using:
+Production-style homelab built with Infrastructure as Code principles using Ansible.
 
-- Proxmox
-- LXC Containers
-- Ansible
-- Nginx
-- HAProxy
-- Keepalived
-- VRRP
+The objective of this project is to deploy and manage a highly available web platform consisting of multiple Nginx backend servers, HAProxy load balancers, and Keepalived-based Virtual IP failover.
+
+---
+
+## Technologies
+
+* Proxmox VE
+* LXC Containers
+* Ansible
+* Nginx
+* HAProxy
+* Keepalived
+* VRRP
 
 ---
 
 ## Architecture
 
+```text
                     VIP
                 10.0.2.234
                       |
@@ -24,63 +31,133 @@ Production-style homelab built using:
           |                       |
           +-----------+-----------+
                       |
-       +------+------+------+------+
+                HAProxy Layer
+                      |
+       +------+------+------+------+------+
        |      |      |      |      |
      web01  web02  web03  web04  web05
+```
 
+---
 
-✔ Infrastructure as Code
+## Features
 
-✔ Automated Nginx Deployment
+* Infrastructure as Code (IaC)
+* Automated Nginx deployment
+* Automated HAProxy deployment
+* Automated Keepalived deployment
+* Inventory-driven configuration
+* Virtual IP (VIP) failover
+* HAProxy health monitoring
+* Active/Passive load balancer architecture
+* Configuration drift recovery using Ansible
 
-✔ Automated HAProxy Deployment
+---
 
-✔ Automated Keepalived Deployment
+## Inventory
 
-✔ Virtual IP Failover
+### Load Balancers
 
-✔ HAProxy Health Check
+| Host | Role   |
+| ---- | ------ |
+| lb01 | MASTER |
+| lb02 | BACKUP |
 
-✔ Active / Passive Load Balancer
+### Web Servers
 
-✔ Recovery from Configuration Drift
+| Host  |
+| ----- |
+| web01 |
+| web02 |
+| web03 |
+| web04 |
+| web05 |
 
-✔ Inventory Driven Configuration
+---
 
+## Deployment
 
-Deploy:
+Deploy the entire environment:
 
+```bash
 ansible-playbook playbooks/site.yml -K
+```
 
+Deploy only HAProxy:
 
-Failover Test:
+```bash
+ansible-playbook playbooks/haproxy.yml -K
+```
 
+Deploy only Keepalived:
+
+```bash
+ansible-playbook playbooks/keepalived.yml -K
+```
+
+---
+
+## Failover Validation
+
+Start traffic generation:
+
+```bash
+./fail-lb.sh
+```
+
+Simulate load balancer failure:
+
+```bash
 systemctl stop haproxy
+```
 
-Expected:
+Expected behavior:
 
-VIP migrates to backup node
+1. HAProxy health check fails
+2. Keepalived decreases node priority
+3. VIP migrates to backup node
+4. Traffic resumes through backup load balancer
 
-Traffic continues
+---
 
-Downtime ≈ 3-5 seconds
+## Observed Results
 
-Failover Test:
-1. Start traffic script
-2. Stop HAProxy on MASTER
-3. Keepalived detects failure
-4. VIP moves to BACKUP
-5. Traffic continues
+Observed failover interruption:
 
-Observed failover interruption
-~5-7 seconds
+```text
+~3-5 seconds
+```
 
-Current Tuning:
-interval = 1
-fall = 1
-rise = 1
+Reason:
 
-Project Structure:
-inventories/
-playbooks/
-roles/
+```text
+VRRP health-check timing
+interval=1
+fall=1
+rise=1
+```
+
+Traffic automatically resumed after VIP migration.
+
+---
+
+## Lessons Learned
+
+* Ansible Roles and Templates
+* Inventory as Source of Truth
+* HAProxy Backend Automation
+* VRRP Fundamentals
+* Keepalived Failover
+* Virtual IP Management
+* Infrastructure Recovery
+* Configuration Drift Remediation
+
+---
+
+## Future Improvements
+
+* Terraform Proxmox Provider
+* Automated LXC Provisioning
+* Dynamic Inventory
+* Monitoring Stack (Prometheus + Grafana)
+* CI/CD Validation Pipeline
