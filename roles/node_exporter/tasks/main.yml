@@ -1,0 +1,13 @@
+#SPDX-License-Identifier: MIT-0
+---
+- name: Install node exporter
+  apt:
+    name: prometheus-node-exporter
+    state: present
+
+- name: Enable node exporter
+  service:
+    name: prometheus-node-exporter
+    state: started
+    enabled: true
+# tasks file for roles/node_exporter

@@ -1,0 +1,11 @@
+#SPDX-License-Identifier: MIT-0
+---
+- name: Install XFCE
+  apt:
+    name:
+      - xfce4
+      - xfce4-goodies
+      - gnome-browser-connector
+      - xrdp
+    state: present
+# tasks file for roles/monitor_gui

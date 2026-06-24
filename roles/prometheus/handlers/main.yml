@@ -1,0 +1,7 @@
+#SPDX-License-Identifier: MIT-0
+---
+- name: restart prometheus
+  service:
+    name: prometheus
+    state: restarted
+# handlers file for roles/prometheus

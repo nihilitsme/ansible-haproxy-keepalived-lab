@@ -1,0 +1,36 @@
+#SPDX-License-Identifier: MIT-0
+---
+- name: Install prerequisite
+  apt:
+    name:
+      - apt-transport-https
+      - software-properties-common
+    state: present
+
+- name: Add Grafana GPG key
+  shell: |
+    wget -q -O - https://apt.grafana.com/gpg.key | gpg --dearmor -o /usr/share/keyrings/grafana.gpg
+  args:
+    creates: /usr/share/keyrings/grafana.gpg
+
+- name: Add Grafana repo
+  copy:
+    dest: /etc/apt/sources.list.d/grafana.list
+    content: |
+      deb [signed-by=/usr/share/keyrings/grafana.gpg] https://apt.grafana.com stable main
+
+- name: Update apt
+  apt:
+    update_cache: yes
+
+- name: Install Grafana
+  apt:
+    name: grafana
+    state: present
+
+- name: Enable Grafana
+  service:
+    name: grafana-server
+    state: started
+    enabled: true
+# tasks file for roles/grafana

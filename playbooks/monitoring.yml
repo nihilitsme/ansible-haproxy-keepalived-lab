@@ -4,17 +4,6 @@
   roles:
     - node_exporter
 
-- hosts: webservers
-  become: true
-  roles:
-    - nginx
-
-- hosts: loadbalancers
-  become: true
-  roles:
-    - haproxy
-    - keepalived
-
 - hosts: prometheus
   become: true
   roles:

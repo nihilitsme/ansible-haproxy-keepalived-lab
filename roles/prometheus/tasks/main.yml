@@ -1,0 +1,19 @@
+#SPDX-License-Identifier: MIT-0
+---
+- name: Install Prometheus
+  apt:
+    name: prometheus
+    state: present
+
+- name: Deploy prometheus.yml
+  template:
+    src: prometheus.yml.j2
+    dest: /etc/prometheus/prometheus.yml
+  notify: restart prometheus
+
+- name: Enable Prometheus
+  service:
+    name: prometheus
+    state: started
+    enabled: true
+# tasks file for roles/prometheus

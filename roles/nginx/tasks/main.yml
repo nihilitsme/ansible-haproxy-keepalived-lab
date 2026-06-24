@@ -1,15 +1,21 @@
 ---
+- name: Prevent service autostart
+  copy:
+    dest: /usr/sbin/policy-rc.d
+    mode: "0755"
+    content: |
+      #!/bin/sh
+      exit 101
+
 - name: Install nginx
   apt:
     name: nginx
     state: present
 
-- name: Disable IPv6 listen
-  replace:
-    path: /etc/nginx/sites-enabled/default
-    regexp: '^\s*listen \[::\]:80.*$'
-    replace: '# listen [::]:80 default_server;'
-#    replace: '# Disabled by Ansible'
+- name: Remove policy-rc.d
+  file:
+    path: /usr/sbin/policy-rc.d
+    state: absent
 
 - name: Deploy index page
   template:
@@ -23,9 +29,12 @@
     dest: /etc/nginx/sites-enabled/default
   notify: restart nginx
 
-## Kalau bandelnya naudzubillah
-#- name: Remove IPv6 listen
-#  lineinfile:
-#    path: /etc/nginx/sites-available/default
-#    regexp: 'listen \[::\]:80'
-#    state: absent
+- name: Validate nginx config
+  command: nginx -t
+  changed_when: false
+
+- name: Enable nginx
+  service:
+    name: nginx
+    state: started
+    enabled: true
