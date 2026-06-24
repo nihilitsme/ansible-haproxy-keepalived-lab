@@ -8,4 +8,5 @@
 *.old
 *.unscaled
 *.tar.gz
+*.sh.kurangkomplit
 docs_personal/*

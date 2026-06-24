@@ -1,21 +1,8 @@
 ---
-- name: Prevent service autostart
-  copy:
-    dest: /usr/sbin/policy-rc.d
-    mode: "0755"
-    content: |
-      #!/bin/sh
-      exit 101
-
 - name: Install nginx
   apt:
     name: nginx
     state: present
-
-- name: Remove policy-rc.d
-  file:
-    path: /usr/sbin/policy-rc.d
-    state: absent
 
 - name: Deploy index page
   template:
@@ -33,7 +20,10 @@
   command: nginx -t
   changed_when: false
 
-- name: Enable nginx
+- name: Flush handlers
+  meta: flush_handlers
+
+- name: Ensure nginx enabled
   service:
     name: nginx
     state: started

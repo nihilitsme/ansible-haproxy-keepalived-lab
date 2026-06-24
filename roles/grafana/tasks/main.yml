@@ -19,14 +19,17 @@
     content: |
       deb [signed-by=/usr/share/keyrings/grafana.gpg] https://apt.grafana.com stable main
 
-- name: Update apt
-  apt:
-    update_cache: yes
+#- name: Update apt
+#  apt:
+#    update_cache: yes
+#  changed_when: false
 
 - name: Install Grafana
   apt:
     name: grafana
     state: present
+    update_cache: yes
+    cache_valid_time: 3600
 
 - name: Enable Grafana
   service:
