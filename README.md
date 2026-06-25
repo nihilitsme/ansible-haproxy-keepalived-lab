@@ -214,51 +214,97 @@ Purpose:
 ---
 
 ---
+# Why This Project Exists
+
+The goal of this project is to gain practical experience with infrastructure automation, high availability, and operational reliability by building and maintaining a production-style environment using open-source technologies.
+
+Rather than focusing solely on service deployment, this homelab emphasizes:
+
+* Infrastructure as Code
+* Repeatable automation
+* High Availability design
+* Configuration management
+* Failover validation
+* Operational visibility
+* Recovery-oriented infrastructure practices
+
+The project serves as a hands-on environment for understanding how production systems handle redundancy, service failures, and operational recovery.
+
+---
+
 # Deployment Logging
-```text
-This project includes a deployment logging framework through
-`scripts/deploy.sh`.
+
+This project includes a custom deployment logging framework implemented through:
+
+```bash
+./scripts/deploy.sh
+```
+
+Every deployment automatically generates operational evidence and audit artifacts.
 
 Generated artifacts:
 
-- deployments/ : raw Ansible execution logs
-- metadata/ : deployment metadata and audit information
-- reports/ : summarized deployment reports
+| Directory    | Purpose                                   |
+| ------------ | ----------------------------------------- |
+| deployments/ | Raw Ansible execution logs                |
+| metadata/    | Deployment metadata and audit information |
+| reports/     | Human-readable deployment summaries       |
 
-Runtime-generated deployment artifacts are intentionally excluded
-from version control.
+Captured deployment metadata includes:
+
+* Deployment ID
+* Deployment Timestamp
+* Operator
+* Controller Host
+* Git Branch
+* Git Commit Hash
+* Git Commit Message
+* Deployment Duration
+* Deployment Status
+* SHA256 Log Checksum
+
+Runtime-generated deployment artifacts are intentionally excluded from version control.
 
 Only the directory structure is tracked in Git.
-```
----
 
+This framework was introduced to improve deployment traceability, troubleshooting, auditability, and operational visibility.
+
+---
 
 # Lessons Learned
 
-This project provided hands-on experience with:
+This project provided practical experience in:
 
-* Linux Administration
-* Ansible Roles
-* Jinja2 Templates
-* HAProxy Load Balancing
-* Keepalived
-* VRRP
-* Virtual IP Management
-* Infrastructure Recovery
-* Configuration Drift Remediation
-* High Availability Design
+* Building Infrastructure as Code using Ansible
+* Designing High Availability architectures
+* Implementing Virtual IP failover using VRRP
+* Managing traffic distribution with HAProxy
+* Building reusable Ansible roles and templates
+* Creating inventory-driven deployments
+* Recovering from configuration drift through automation
+* Performing failover testing and validation
+* Troubleshooting distributed infrastructure issues
+* Designing deployment logging and audit-trail mechanisms
+* Documenting operational procedures and infrastructure behavior
+
+Most importantly, this project reinforced the value of repeatable automation, operational visibility, and recovery-focused infrastructure design.
 
 ---
 
 # Future Improvements
 
-* Terraform Proxmox Provider
+Planned enhancements include:
+
+* Terraform Proxmox Provider Integration
 * Automated LXC Provisioning
-* Dynamic Inventory
-* Prometheus Monitoring
+* Dynamic Inventory Generation
+* Infrastructure Lifecycle Management
+* Prometheus Monitoring Stack
 * Grafana Dashboards
-* CI/CD Validation Pipeline
-* Multi-Service Failover Testing
+* Automated Infrastructure Validation
+* CI/CD Deployment Pipelines
+* Automated Failover Testing
+* Infrastructure Compliance Reporting
 
 ---
 
@@ -266,15 +312,20 @@ This project provided hands-on experience with:
 
 Current Status:
 
-✅ Completed
+✅ Core High Availability Platform Completed
 
-Infrastructure successfully supports:
+Implemented capabilities:
 
-* Automated Deployment
-* Load Balancing
-* High Availability
-* VIP Failover
-* Configuration Recovery
+* Automated Infrastructure Deployment
+* Inventory-Driven Configuration Management
+* HAProxy Load Balancing
+* Keepalived VIP Failover
+* Configuration Drift Recovery
+* Deployment Logging Framework
+* Failover Validation Testing
+
+This repository serves as the foundation for future infrastructure automation initiatives involving Terraform, Proxmox, Prometheus, Grafana, and CI/CD workflows.
 
 Built as part of an ongoing DevOps Homelab Journey.
+
 
