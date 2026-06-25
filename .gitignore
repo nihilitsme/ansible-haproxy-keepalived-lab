@@ -1,12 +1,65 @@
+#*.retry
+#*.swp
+#*.log
+#.vscode/
+#.old
+#.unscaled
+#.tar.gz
+#*.old
+#*.unscaled
+#*.tar.gz
+#*.kurangkomplit
+#docs_personal/*
+
+# Log & Temporary files
+*.log
 *.retry
 *.swp
-*.log
+*.meta
+*.summary
+*.bak
+*.orig
+
+# IDEs
 .vscode/
-.old
-.unscaled
-.tar.gz
+
+# Backup & Unwanted extensions
 *.old
 *.unscaled
-*.tar.gz
 *.kurangkomplit
+
+# Compressed files
+*.tar.gz
+
+# Personal Documentation
 docs_personal/*
+
+# PENGECUALIAN (Whitelisting): Izinkan file ini tetap ke-track
+!docs/fail_lb_20260612_100533.log
+
+# Runtime deployment logs
+logs/deployments/*
+logs/metadata/*
+logs/reports/*
+
+# Keep directory structure
+!logs/deployments/.gitkeep
+!logs/metadata/.gitkeep
+!logs/reports/.gitkeep
+
+# deployment counter
+logs/deployment-counter
+
+# legacy logs
+logs/legacy/
+
+# backup scripts
+scripts/*.bak
+scripts/*.old
+scripts/*.kurangkomplit
+
+# backup folder
+backup/
+
+# test files
+test.txt

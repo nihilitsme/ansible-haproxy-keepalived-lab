@@ -213,6 +213,26 @@ Purpose:
 
 ---
 
+---
+# Deployment Logging
+```text
+This project includes a deployment logging framework through
+`scripts/deploy.sh`.
+
+Generated artifacts:
+
+- deployments/ : raw Ansible execution logs
+- metadata/ : deployment metadata and audit information
+- reports/ : summarized deployment reports
+
+Runtime-generated deployment artifacts are intentionally excluded
+from version control.
+
+Only the directory structure is tracked in Git.
+```
+---
+
+
 # Lessons Learned
 
 This project provided hands-on experience with:
